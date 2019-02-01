@@ -2,10 +2,12 @@
 #include <iostream>
 
 /* BEGIN CHANGES */
-#define V0 3
-#define V1 0
-#define V2 1
-#define V3 3
+#define V0 3 // has to be 3
+#define V1 3 // has to be 3
+#define V2 3 // can be any nonzero int
+#define V3 3 // has to be 3
+
+// the minimum number of distict values is 1
 /* END CHANGES */
 
 int main() {
