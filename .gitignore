@@ -1,6 +1,9 @@
 # the class files and textbook
 class_files/
 
+# the textbooks cpp files
+cs_tapestry/
+
 # Prerequisites
 *.d
 
