@@ -1,5 +1,5 @@
-#ifndef POSITION_H
-#define POSITION_H
+#ifndef POSITION_H // "if not defined"
+#define POSITION_H // prevent the compiler from defining this file more than once
 
 // Position: Consists of a radius expressed in meters and an angle expressed
 // in radians.

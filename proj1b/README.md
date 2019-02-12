@@ -6,3 +6,4 @@
 
 `positions.cpp`: Implements the behavior of the position class.
 
+`test.cpp`: Test cases for all member functions of the Positions class.
