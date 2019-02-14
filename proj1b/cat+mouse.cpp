@@ -17,7 +17,7 @@ float DegToRad(float deg)
  * It should read legal cat and mouse positions from the user
  * and return the position values in its two arguments.
  */
-void GetPositions(Position cat, Position mouse)
+void GetPositions(Position& cat, Position& mouse)
 {
 	// obtain intial cat and mouse positions from the
 	// user and reinitialize the cat and mouse positions
@@ -36,19 +36,6 @@ void GetPositions(Position cat, Position mouse)
 
     cat.SetAbsolutePosition(catRadius, DegToRad(catAngle));
     mouse.SetAbsolutePosition(1, DegToRad(mouseAngle));
-
-    cout << "Printing mouse\n";
-    mouse.Print();
-    cout << endl;
-
-    // cout << "Printing oldcat\n";
-    // oldCat.Print();
-    // cout << endl;
-
-    cout << "Printing cat\n";
-    cat.Print();
-    cout << endl;
-
 }
 
 /**
@@ -59,8 +46,9 @@ void GetPositions(Position cat, Position mouse)
  * catch the mouse, or 30 time units will go by and the cat will
  * give up.
  */
-void RunChase(Position cat, Position mouse)
+void RunChase(Position& cat, Position& mouse)
 {
+    bool debug = true;
     bool mouseCaught = false;
     int loopCount = 0;
 
@@ -69,24 +57,25 @@ void RunChase(Position cat, Position mouse)
     cout << "Running chase..." << endl;
     while (!mouseCaught && loopCount < 30) {
 
+        // debug output every state
+        if (debug) {
+            cout << "--- Loop Count: " << loopCount << " ---\n";
+
+            cout << "Mouse:\n";
+            mouse.Print();
+            cout << "\n";
+
+            cout << "Cat:\n";
+            cat.Print();
+            cout << "\n";
+        }
+
         // cat moves in if it sees the mouse
         if (cat.Sees(mouse)) {
             cat.IncrementPosition(-1, 0);
         } else {
             cat.IncrementPosition(0, 1.25);
         }
-
-        // cout << "Printing mouse\n";
-        // mouse.Print();
-        // cout << endl;
-
-        // cout << "Printing oldcat\n";
-        // oldCat.Print();
-        // cout << endl;
-
-        // cout << "Printing cat\n";
-        // cat.Print();
-        // cout << endl;
 
         // if the cat passes the mouse, its caught
         if (mouse.IsBetween(oldCat, cat)) {
@@ -98,14 +87,11 @@ void RunChase(Position cat, Position mouse)
 
         // update the previous position of the cat
         oldCat = cat; 
-
-        cout << "hitting loopCount\n";
-        cout << mouseCaught << endl;    
         loopCount++;
     }
 
     // output the outcome of the chase
-    cout << "Loop Count: " << loopCount << "\n";
+    cout << "Total number of loops: " << loopCount << "\n";
 
     if (mouseCaught) {
         cout << "The cat ate the mouse!\n";
@@ -118,8 +104,6 @@ int main()
 {
     Position cat, mouse;
     GetPositions(cat, mouse);
-    // TODO: cat and mouse are not being updated by this function
-    // might need to pass these by reference???
     RunChase(cat, mouse);
 
     return 0;

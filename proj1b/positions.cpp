@@ -54,12 +54,12 @@ void Position::IncrementPosition(float rChange, float angularDistChange)
 	// negative values are clockwise.
 	
 	// protect against the cat moving inside the statue
-	if ((myRadius += rChange) <= 1) {
-		myRadius = 1;
-	} else { 
-		myRadius += rChange;
-	}
+	myRadius += rChange;
 
+	if (myRadius < 1) {
+		myRadius = 1;
+	}
+	
 	myAngleInRadians += (angularDistChange / myRadius);
 }
 
@@ -110,8 +110,6 @@ bool Position::IsBetween(Position pos1, Position pos2) const
 	bool isBetween = false;
 
 	float ccwDiff = pos2.myAngleInRadians - pos1.myAngleInRadians;
-
-	// cout << ccwDiff << endl;
 	
 	if (ccwDiff <= PI && myRadius == pos1.myRadius == pos2.myRadius) {
 		// precondition is satisfied
