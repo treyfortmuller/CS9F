@@ -1,6 +1,8 @@
-/* CS9F Proj2 - Exercise 1
+/* CS9F Proj2 - Exercise 2
  * Trey Fortmuller
  */ 
+
+// TODO: add test cases as specified in the project requirements
 
 #include <cstdlib> // for the exit() function
 #include <iostream> // standard input, output stream
