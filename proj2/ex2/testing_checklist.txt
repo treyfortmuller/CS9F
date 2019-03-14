@@ -1,0 +1,11 @@
+* a blank line;
+* a line with a correct command word but too few arguments;
+* a line with a correct command word but too many arguments;
+* a line with a correct command word and the correct number of arguments, but with an argument of the wrong type (word instead of number).
+* update existing entries;
+* update (i.e. insert) new entries, with at least one test that causes the inventory to expand;
+* sort entries originally in reverse order;
+* sort entries already in order;
+* sort a sequence of entries with a large value between two smaller values;
+* sort a sequence of entries with a small value between two larger values;
+* process a batch command correctly.

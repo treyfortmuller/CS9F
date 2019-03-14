@@ -1,0 +1,14 @@
+
+update apple
+update apple 5 6
+update banana apple
+update apple 1
+update apple 2
+update banana 2
+update cranberry 1
+list quantities
+update raspberry 50
+update strawberry 3
+update blueberry 100
+list quantities
+list names

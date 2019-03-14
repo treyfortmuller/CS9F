@@ -1,3 +1,6 @@
+#ifndef INVENTORY_H // "if not defined"
+#define INVENTORY_H // prevent the compiler from defining this file more than once
+
 #include <vector>
 #include <string>
 using namespace std;
@@ -25,7 +28,7 @@ struct Item {
 class Inventory
 {
 public:
-    Inventory();
+    // Inventory();
 
     void Update(string item, int amount);
 
@@ -33,10 +36,16 @@ public:
 
     void ListByQuantity();
 
-    void PrintItem(Item & entry);
+    void PrintItem(const Item & entry);
+
+    // bool CompareByName(Item & a, Item & b);
+
+    // bool CompareByQuantity(Item & a, Item & b);
 
 private:
     // TODO: Your code here
     vector<Item> itemList;
 
 };
+
+#endif

@@ -3,23 +3,30 @@
  */ 
 
 // TODO: add test cases as specified in the project requirements
+/* QUESTIONS:
+    * need Items object to have a basically global scope in this file, best way to do that?
+    * issue with sorting the vector of structs using the basic method rather than C++11 lambas
+    * what to do with this constructor in the Inventory class, nothing to do?
+*/
+
 
 #include <cstdlib> // for the exit() function
 #include <iostream> // standard input, output stream
 #include <fstream> // file read and write stream
 #include <sstream> // a stream associated with a string
 #include <string>
+#include "inventory.h"
 using namespace std;
 
 // Function Prototypes
 
-void InterpretCommands(istream&);
+void InterpretCommands(istream&, Inventory&);
 
-void InterpretUpdate(istream&);
+void InterpretUpdate(istream&, Inventory&);
 
-void InterpretList(istream&);
+void InterpretList(istream&, Inventory&);
 
-void InterpretBatch(istream&);
+void InterpretBatch(istream&, Inventory&);
 
 void InterpretQuit(istream&);
 
@@ -28,14 +35,17 @@ void InterpretQuit(istream&);
  */
 int main()
 {
-    InterpretCommands(cin);
+    // intialize an inventory
+    Inventory Items; // need this to have a basically global scope, can I do this?
+
+    InterpretCommands(cin, Items);
     return 0;
 }
 
 /**
  * TODO: Write your function description here.
  */
-void InterpretCommands(istream& cmds)
+void InterpretCommands(istream& cmds, Inventory& Items)
 {
     string line, lineInWord; // a line from cin, a word in the string stream
     // TODO: Declare other variables here.  
@@ -51,15 +61,15 @@ void InterpretCommands(istream& cmds)
         }
         else if (lineInWord == "update")
         {
-            InterpretUpdate(lineIn);
+            InterpretUpdate(lineIn, Items);
         }
         else if (lineInWord == "list")
         {
-            InterpretList(lineIn);
+            InterpretList(lineIn, Items);
         }
         else if (lineInWord == "batch")
         {
-            InterpretBatch(lineIn);
+            InterpretBatch(lineIn, Items);
         }
         else if (lineInWord == "quit")
         {
@@ -72,7 +82,7 @@ void InterpretCommands(istream& cmds)
     }
 }
 
-void InterpretUpdate(istream& cmds)
+void InterpretUpdate(istream& cmds, Inventory& Items)
 {
     string errMsg = "Invalid entry - usage: update [word] [int]";
     string word;
@@ -86,13 +96,14 @@ void InterpretUpdate(istream& cmds)
         } else {
             // we have a legal input
             cout << "update " << word << " " << number << endl;
+            Items.Update(word, number);
         }
     } else {
         cerr << errMsg << endl;
     }
 }
 
-void InterpretList(istream& cmds)
+void InterpretList(istream& cmds, Inventory& Items)
 {
     string errMsg =  "Invalid entry - usage: list \"names\" -or- \"quantities\"";
     string arg;
@@ -106,8 +117,12 @@ void InterpretList(istream& cmds)
             // we have a legal input
             if (arg == "quantities") {
                 cout << "list " << arg << endl;
+                Items.ListByQuantity();
+
             } else if (arg == "names") {
                 cout << "list " << arg << endl;
+                Items.ListByName();
+
             } else {
                 cerr << errMsg << endl;
             }
@@ -118,7 +133,7 @@ void InterpretList(istream& cmds)
     }
 }
 
-void InterpretBatch(istream& cmds)
+void InterpretBatch(istream& cmds, Inventory& Items)
 {
     string errMsg = "Invalid entry - usage: batch [filename]";
     string filename;
@@ -136,7 +151,7 @@ void InterpretBatch(istream& cmds)
                 cout << "Failed to open text file." << endl;
             } else {
                 // we can read the file, pass the file stream off
-                InterpretCommands(fileInput);
+                InterpretCommands(fileInput, Items);
             }
         }
     } else {
