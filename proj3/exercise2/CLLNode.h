@@ -6,6 +6,8 @@
 class CLLNode
 {
 public:
+    // note the constructor sets the value but connects the node only to itself
+    // in both directions
     CLLNode(int k)
         : myValue(k)
         , myPrevious(this)
@@ -31,6 +33,8 @@ public:
     // Delete first node from the list; return pointer to its successor, or
     // 0.
     // Precondition: there is a node to delete.
+
+    int getValue() const;
 
     void print() const;
 

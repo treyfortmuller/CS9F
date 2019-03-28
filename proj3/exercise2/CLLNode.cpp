@@ -34,7 +34,15 @@ CLLNode* CLLNode::previous()
 CLLNode* CLLNode::insert(CLLNode* ptr)
 {
     // TODO: You fill this in
-    return 0;
+    // set up the new element's outgoing connections
+    ptr->myNext = this;
+    ptr->myPrevious = myPrevious;
+
+    // set up the new element's incoming connections
+    myPrevious->myNext = ptr; // make the previous element's "next" point to the new element
+    myPrevious = ptr; // the new element comes before this element
+
+    return ptr;
 }
 
 /**
@@ -45,7 +53,24 @@ CLLNode* CLLNode::insert(CLLNode* ptr)
 CLLNode* CLLNode::remove()
 {
     // TODO: You fill this in
-    return 0;
+    if (this->lengthIsOne()) {
+        delete this;
+        return 0;
+    } else {
+        // first replace all the connections between nodes
+        myPrevious->myNext = myNext;
+        myNext->myPrevious = myPrevious;
+
+        // save the successor's pointer to return
+        CLLNode* next = myNext;
+        delete this;
+        return next;
+    }
+}
+
+int CLLNode::getValue() const
+{
+    return myValue;
 }
 
 /**
