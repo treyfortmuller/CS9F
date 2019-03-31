@@ -41,20 +41,43 @@ int main()
     parent->AddChild(brother);
     parent->AddChild(sister);
 
+    // add my parent to my grandparent
+    grandparent->AddChild(parent); // part 2
+
     // We won't need these any more now, will we?
-    parent = 0;
-    grandparent = 0;
-    brother = 0;
-    sister = 0;
-    child1 = 0;
-    child2 = 0;
-    child3 = 0;
-    grandchild11 = 0;
-    grandchild12 = 0;
-    grandchild31 = 0;
-    grandchild32 = 0;
+    // parent = 0;
+    // grandparent = 0;
+    // brother = 0;
+    // sister = 0;
+    // child1 = 0;
+    // child2 = 0;
+    // child3 = 0;
+    // grandchild11 = 0;
+    // grandchild12 = 0;
+    // grandchild31 = 0;
+    // grandchild32 = 0;
 
     // Print my name and my parent's name.
     cout << "Hi, my name is " << me->Name() << endl;
     cout << "Meet my parent " << me->Parent()->Name() << endl;
+    cout << "My grandparent is " << me->Parent()->Parent()->Name() << endl; // part 2
+
+    // part 3
+    cout << "--- printing children ---" << endl;
+    me->PrintChildren(); // Marge, Homer, Mike
+    parent->PrintChildren(); // Wilma, Fred, Me
+    grandchild12->PrintChildren(); // nothing, i.e. no children
+
+    // part 4
+    cout << "--- printing grandchildren ---" << endl;
+    me->PrintGrandchildren(); // Hilliary, Bill, Lisa, Bart
+
+    // part 5
+    cout << "--- printing descendants ---" << endl;
+    parent->PrintDescendants();
+    cout << "--- printing descendants ---" << endl;
+    child3->PrintDescendants(); // on marge
+    cout << "--- printing descendants ---" << endl;
+    grandparent->PrintDescendants();
+
 }
