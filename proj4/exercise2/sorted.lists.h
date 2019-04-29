@@ -23,6 +23,7 @@ private:
     ListNode* myNext;
 };
 
+// template class methods need this line because they are also template functions
 template <class NODETYPE>
 ListNode<NODETYPE>::ListNode(const NODETYPE& value)
 {
@@ -50,13 +51,15 @@ private:
     ListNode<NODETYPE>* myFirst;
 };
 
-___
+template <class NODETYPE>
+SortedList<NODETYPE>::SortedList()
 {
     // constructor
     myFirst = 0;
 }
 
-___
+template <class NODETYPE>
+SortedList<NODETYPE>::~SortedList()
 {
     // destructor
     if (!IsEmpty())
@@ -74,7 +77,9 @@ ___
         cerr << endl;
     }
 }
-___
+
+template <class NODETYPE>
+SortedList<NODETYPE>::SortedList(const SortedList<NODETYPE>& list)
 {
     // copy constructor
     cerr << "*** in copy constructor" << endl;
@@ -96,7 +101,9 @@ ___
         listCurrent = listCurrent->myNext;
     }
 }
-___
+
+template <class NODETYPE>
+void SortedList<NODETYPE>::Insert(const NODETYPE&)
 {
     // Insert
     ListNode<NODETYPE>* toInsert = new ListNode<NODETYPE>(value);
@@ -119,7 +126,9 @@ ___
         temp->myNext = toInsert;
     }
 }
-___
+
+template <class NODETYPE>
+bool SortedList<NODETYPE>::IsEmpty()
 {
     // IsEmpty
     return myFirst == 0;

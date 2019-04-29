@@ -1,5 +1,7 @@
+#include <stdlib.h> // I'm using GCC which needs this include for exit()
 #include <vector>
 #include <string>
+#include <iostream> // needed to add this, for some reason it wasn't here already
 using namespace std;
 
 #include "positions.h"

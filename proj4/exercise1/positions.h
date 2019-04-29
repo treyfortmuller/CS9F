@@ -1,6 +1,10 @@
 #ifndef POSITIONS_H
 #define POSITIONS_H
 
+// some single tiny change will be required here???
+#include <ostream>
+using namespace std;
+
 class Position
 {
 public:
@@ -35,7 +39,7 @@ public:
     bool Sees(Position pos);
 
     // Return true if this position is at the base of the statue,
-    // i.e. its radius is1, and return false otherwise.
+    // i.e. its radius is 1, and return false otherwise.
     bool IsAtStatue();
 
     // Return true if this position is between the first argument
@@ -48,7 +52,7 @@ public:
 private:
     float myRadius;
     float myAngleInRadians;
-    float Normalize(float radians);
+    // float Normalize(float radians); // optional function to bring angles to [0, 2*pi]
 };
 
 #endif
