@@ -4,6 +4,7 @@
 #include <iostream>
 #include <cassert>
 
+// prototypes
 template <class NODETYPE>
 class SortedList;
 
@@ -16,6 +17,8 @@ template <class NODETYPE>
 class ListNode
 {
     friend class SortedList<NODETYPE>;
+    friend class SortedListIterator<NODETYPE>;
+
 
 public:
     ListNode(const NODETYPE&);
@@ -45,6 +48,9 @@ NODETYPE ListNode<NODETYPE>::Info()
 template <class NODETYPE>
 class SortedList
 {
+
+    friend class SortedListIterator<NODETYPE>;
+
 public:
     SortedList();
     ~SortedList();
@@ -175,32 +181,70 @@ SortedList<NODETYPE> SortedList<NODETYPE>::operator=(const SortedList<NODETYPE>&
     }
 
     // construct a copy of the list on the right hand side of the = to asssign
-    ListNode<NODETYPE>* listCurrent = list.myFirst;
-    ListNode<NODETYPE>* newCurrent = 0;
-    while (listCurrent != 0)
-    {
-        ListNode<NODETYPE>* temp = new ListNode<NODETYPE>(listCurrent->Info());
-        if (newCurrent == 0)
-        {
-            myFirst = temp;
-            newCurrent = myFirst;
-        }
-        else
-        {
-            newCurrent->myNext = temp;
-            newCurrent = temp;
-        }
-        listCurrent = listCurrent->myNext;
-    }
+    // ListNode<NODETYPE>* listCurrent = list.myFirst;
 
-    return listCurrent; // TODO: unsure about this return...
+    return list; // return a SortedList<NODETYPE> object
+    // ListNode<NODETYPE>* newCurrent = 0;
+    // while (listCurrent != 0)
+    // {
+    //     ListNode<NODETYPE>* temp = new ListNode<NODETYPE>(listCurrent->Info());
+    //     if (newCurrent == 0)
+    //     {
+    //         myFirst = temp;
+    //         newCurrent = myFirst;
+    //     }
+    //     else
+    //     {
+    //         newCurrent->myNext = temp;
+    //         newCurrent = temp;
+    //     }
+    //     listCurrent = listCurrent->myNext;
+    // }
+
+    // return listCurrent; // TODO: unsure about this return...
 }
 
 
-// --- LISTNODE CLASS ---
-// template <class NODETYPE>
-// class SortedListIterator {
+// --- SORTEDLISTITERATOR CLASS ---
+template <class NODETYPE>
+class SortedListIterator {
 
-// };
+// make the iterator class a friend of ListNode and SortedList so it can access their private data members to iterate
+
+public:
+    SortedListIterator(SortedList<NODETYPE>&); // one argument constructor, takes in a list
+    bool MoreRemain();
+    NODETYPE Next();
+
+private:
+    ListNode<NODETYPE>* currentNode;
+};
+
+// sorted list iterator constructor
+template <class NODETYPE>
+SortedListIterator<NODETYPE>::SortedListIterator(SortedList<NODETYPE>& list) {
+    // set the current node of the iterator to the first node of the list
+    currentNode = list.myFirst;
+}
+
+template <class NODETYPE>
+bool SortedListIterator<NODETYPE>::MoreRemain() {
+    // if the current node's next pointer is 0, there are no more elements
+    // if (currentNode->myNext == 0) {
+    if (currentNode == 0) {
+       return false; 
+    }
+    return true;
+}
+
+template <class NODETYPE>
+NODETYPE SortedListIterator<NODETYPE>::Next() {
+    // return the value of the current node in the iterator and move to the next
+    ListNode<NODETYPE>* returnNode = currentNode;
+    currentNode = currentNode->myNext;
+
+    return returnNode->myInfo;
+}
+
 
 #endif
