@@ -17,7 +17,6 @@ Mouse::Mouse(string s, Position p)
 bool Mouse::Chase() {
 	// Move the animal, and return true if it catches its target.
 	myPos.IncrementPosition(0, 1);
-	cout << "the mouse moved" << endl;
 
 	cout << "--- mouse position ---" << endl;
 	myPos.Print();
@@ -40,7 +39,6 @@ bool Cat::Chase() {
 	} else {
 		myPos.IncrementPosition(0, 1.25);
 	}
-	cout << "the cat moved" << endl;
 
 	cout << "--- cat position ---" << endl;
 	myPos.Print();
@@ -64,12 +62,12 @@ bool Person::Chase() {
 	// Move the animal, and return true if it catches its target.
 	if (!myPos.Sees(myTarget->Pos())) {
 		myPos.IncrementPosition(0, 2);
-		cout << "the person moved" << endl;
-
-		cout << "--- person position ---" << endl;
-		myPos.Print();
-		cout << endl;
+		cout << myName << " saw " << myTarget->Name() << endl;
 	}
+
+	cout << "--- person position ---" << endl;
+	myPos.Print();
+	cout << endl;
 
 	return false;
 }
