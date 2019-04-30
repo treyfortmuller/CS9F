@@ -59,7 +59,7 @@ public:
     bool IsEmpty();
 
     // overloaded assignment operator prototype
-    SortedList<NODETYPE> operator=(const SortedList<NODETYPE>&); // const because we won't modify the argument
+    SortedList<NODETYPE>& operator=(const SortedList<NODETYPE>&); // const because we won't modify the argument
 
 private:
     ListNode<NODETYPE>* myFirst;
@@ -117,7 +117,7 @@ SortedList<NODETYPE>::SortedList(const SortedList<NODETYPE>& list)
 }
 
 template <class NODETYPE>
-void SortedList<NODETYPE>::Insert(const NODETYPE& value) // TODO: Should this "value" go here?
+void SortedList<NODETYPE>::Insert(const NODETYPE& value)  
 {
     // Insert
     ListNode<NODETYPE>* toInsert = new ListNode<NODETYPE>(value);
@@ -133,10 +133,6 @@ void SortedList<NODETYPE>::Insert(const NODETYPE& value) // TODO: Should this "v
     else
     {
         ListNode<NODETYPE>* temp = myFirst;
-        // TODO: WEIRD... this for loop they gave me doesn't do anything???
-        // for (temp = myFirst; temp->myNext != 0 && temp->myNext->Info() < value; temp = temp->next)
-        // {
-        // }
         toInsert->myNext = temp->myNext;
         temp->myNext = toInsert;
     }
@@ -151,7 +147,7 @@ bool SortedList<NODETYPE>::IsEmpty()
 
 // overloaded assignment operator definition
 template <class NODETYPE>
-SortedList<NODETYPE> SortedList<NODETYPE>::operator=(const SortedList<NODETYPE>& list)
+SortedList<NODETYPE>& SortedList<NODETYPE>::operator=(const SortedList<NODETYPE>& list)
 {
     /*
     Your function should first delete all the ListNode objects in the variable being assigned to (the left hand side of the =).
@@ -160,11 +156,13 @@ SortedList<NODETYPE> SortedList<NODETYPE>::operator=(const SortedList<NODETYPE>&
     */
 
     // self-assignment guard
-    if (this == &list)
+    if (this == &list) {
         cout << "*** Assigning a list to itself." << endl;
         return *this;
+    }
 
     // first delete all the ListNode objects in the variable being assigned to
+    // very similar to the existing destructor
     if (!IsEmpty())
     {
         cerr << "*** in operator=, destroying: ";
@@ -181,27 +179,27 @@ SortedList<NODETYPE> SortedList<NODETYPE>::operator=(const SortedList<NODETYPE>&
     }
 
     // construct a copy of the list on the right hand side of the = to asssign
-    // ListNode<NODETYPE>* listCurrent = list.myFirst;
+    // very similar to the existing destructor
+    ListNode<NODETYPE>* listCurrent = list.myFirst;
 
-    return list; // return a SortedList<NODETYPE> object
-    // ListNode<NODETYPE>* newCurrent = 0;
-    // while (listCurrent != 0)
-    // {
-    //     ListNode<NODETYPE>* temp = new ListNode<NODETYPE>(listCurrent->Info());
-    //     if (newCurrent == 0)
-    //     {
-    //         myFirst = temp;
-    //         newCurrent = myFirst;
-    //     }
-    //     else
-    //     {
-    //         newCurrent->myNext = temp;
-    //         newCurrent = temp;
-    //     }
-    //     listCurrent = listCurrent->myNext;
-    // }
+    ListNode<NODETYPE>* newCurrent = 0;
+    while (listCurrent != 0)
+    {
+        ListNode<NODETYPE>* temp = new ListNode<NODETYPE>(listCurrent->Info());
+        if (newCurrent == 0)
+        {
+            myFirst = temp;
+            newCurrent = myFirst;
+        }
+        else
+        {
+            newCurrent->myNext = temp;
+            newCurrent = temp;
+        }
+        listCurrent = listCurrent->myNext;
+    }
 
-    // return listCurrent; // TODO: unsure about this return...
+    return *this; // return a SortedList<NODETYPE> object
 }
 
 
@@ -248,3 +246,18 @@ NODETYPE SortedListIterator<NODETYPE>::Next() {
 
 
 #endif
+
+/*
+Questions:
+
+1. Why is the overloaded assignment operator= necessary to achieve the correct behavior, why is it different from the deault behavior?
+
+ans: I think the default assignment operator wouldn't delete the existing data in memory, it would just switch
+     the pointer to a new address in memory, i.e. we'd have a memory leak on each assignment
+
+2. Why does the SortedListIterator need to be a friend class of ListNode and SortedList
+
+ans: Because SortedListIterator needs to access the private data members of ListNode (specifically myInfo in the Next() function)
+     and SortedList (specifically myFirst in the constructor of SortedListIterator).
+
+*/
